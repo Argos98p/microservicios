@@ -46,21 +46,7 @@ public class SparqlQueries {
                 "} GROUP BY ?titulo ?descripcion ?creador ?point";
     }
 
-    public static String getAllPlace() {
-        return prefixes+"" +
-                "SELECT ?id ?titulo ?descripcion (GROUP_CONCAT(DISTINCT ?imagenes2 ; SEPARATOR = ',') AS ?imagenes)  ?creador ?point  (GROUP_CONCAT(DISTINCT ?idFacebook ; SEPARATOR = ',') AS ?fbIDs)  WHERE{"+
-                "?id a tp:POI."+
-                "?id dc:title ?titulo."+
-                "?id dc:description ?descripcion."+
-                "?id fb:facebookId ?faceboook_id_node."+
-                "?id dc:creator ?creador."+
-                "?id vcard:hasPhoto ?imagenes2."+
-                "?id geo:hasGeometry ?geometry_node."+
-                "?geometry_node geo:asWKT ?point."+
-                "?faceboook_id_node ?prop ?idFacebook."+
-                "FILTER(?prop != rdf:type)"+
-                "} GROUP BY ?id ?titulo ?descripcion ?creador ?point";
-    }
+
 
 
 
@@ -441,4 +427,32 @@ public class SparqlQueries {
 
                 "} GROUP BY ?org ?creadorImage ?orgName ?favorito ?region ?categoria ?regionTitulo ?place ?titulo ?distance ?date ?status ?descripcion ?creador ?point ?nombre";
     }
+
+    public static String getComentsForAdmin(String placeId){
+        placeId = "'http://turis-ucuenca/lugar/" +placeId+ "'";
+        return prefixes +'\n'+"prefix : <http://turis-ucuenca/>\n" +
+                "prefix org: <http://www.w3.org/TR/vocab-org/>\n" +
+                "prefix myorg: <http://turis-ucuenca/org/>\n" +
+                "prefix myregiones: <http://turis-ucuenca/region/>\n" +
+                "prefix lugar: <http://turis-ucuenca/lugar/>\n" +
+                "prefix myusers: <http://turis-ucuenca/user/>\n" +
+                "prefix foaf: <http://xmlns.com/foaf/0.1/>\n" +
+                "prefix tp: <http://tour-pedia.org/download/tp.owl>\n" +
+                "prefix vcard: <http://www.w3.org/2006/vcard/ns#>\n" +
+                "prefix geo: <http://www.opengis.net/ont/geosparql#>\n" +
+                "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+                "prefix base2:<http://turis-ucuenca#>\n" +
+                "prefix unit: <http://qudt.org/vocab/unit#>prefix geof: <http://www.opengis.net/def/function/geosparql/>\n" +
+                "base  <http://turis-ucuenca/>\n" +
+                "SELECT ?comment ?place ?date ?rate ?text WHERE{\n" +
+                "    ?comment a :Comentario.\n" +
+                "    ?comment base2:place ?place. \n" +
+                "    ?comment dc:date ?date.\n" +
+                "    ?comment base2:rating ?rate.\n" +
+                "    ?comment base2:text ?text.\n" +
+                "  \n" +
+                "    FILTER(str(?place)="+placeId+").\n" +
+                "}";
+    }
 }
+
