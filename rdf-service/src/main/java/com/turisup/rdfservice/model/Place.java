@@ -23,6 +23,7 @@ public class Place{
     String categoria;
     String favorito;
     Double rate;
+    int numComentarios;
 
 
     public Place(String id, String nombre,String status, PlacePoint coordenadas, String descripcion, ArrayList<String> imagenesPaths, ArrayList<String> fbImagenesIds, Organization organizacion, Region region, User user, String favorito) {

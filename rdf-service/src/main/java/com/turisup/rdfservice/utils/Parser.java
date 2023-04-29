@@ -68,6 +68,14 @@ public class Parser {
         }else{
             myPlaceResponse.setRate(99.0);
         }
+
+        if(soln.getLiteral("numComentarios")!=null){
+            int numComentarios = soln.getLiteral("numComentarios").getInt();
+            myPlaceResponse.setNumComentarios(numComentarios);
+        }else{
+            myPlaceResponse.setNumComentarios(0);
+        }
+
         if(soln.getLiteral("fbVideoIDs")!=null && !soln.getLiteral("fbVideoIDs").toString().equalsIgnoreCase("")){
             ArrayList<String> facebookVideoIds= new ArrayList( Arrays.asList( soln.getLiteral("fbVideoIDs").toString().split(",") ) );
             facebookVideoIds.remove("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");

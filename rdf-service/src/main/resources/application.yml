@@ -1,5 +1,2 @@
-stardog:
-  dbname: Turismo2
-  server: https://sd-90ffdb51.stardog.cloud:5820
-  username: ricardo
-  pass: Chocolate619
+server:
+  port : 8084

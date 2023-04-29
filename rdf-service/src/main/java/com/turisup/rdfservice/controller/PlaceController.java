@@ -26,17 +26,25 @@ public class PlaceController {
         return (optionalPlace.isPresent() 
                 ? ResponseEntity.ok(optionalPlace.get())
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body("El lugar "+uriId+" no existe"));
-
     }
 
     @GetMapping("/places")
-    public ResponseEntity<List<Place>> allPlaces(@RequestParam (name="regionId",required=false)  String regionId){
-        return placeRepository.getAll(regionId).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+    public ResponseEntity<?> allPlaces(@RequestParam (name="regionId",required=false)  String regionId){
+        Optional<List<Place>> optionalPlaces = placeRepository.getAll(regionId);
+        return (optionalPlaces.isPresent()
+                ? ResponseEntity.ok(optionalPlaces.get())
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay recursos"));
     }
 
     @GetMapping("place/{id}/comentarios")
-    public ResponseEntity<List<CommentBasic>> getPlaceComments (@PathVariable(value = "id") String uriId){
-        return placeRepository.getCommentsForAdmin(uriId).map(ResponseEntity::ok).orElseGet(()->ResponseEntity.noContent().build());
+    public ResponseEntity<?> getPlaceComments (@PathVariable(value = "id") String uriId){
+        Optional comentsByPlace = placeRepository.getCommentsForAdmin(uriId);
+        return (comentsByPlace.isPresent()
+                ? ResponseEntity.ok(comentsByPlace.get())
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el recurso con id"+uriId));
 
     }
+
+
+
 }

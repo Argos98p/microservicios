@@ -128,7 +128,7 @@ public class SparqlQueries {
                 "prefix unit: <http://qudt.org/vocab/unit#>" +
                 "prefix geof: <http://www.opengis.net/def/function/geosparql/>"+
                 "base  <http://turis-ucuenca/>"+
-                "SELECT ?org ?orgName ?creadorImage  ?region ?regionTitulo ?place ?titulo  ?categoria  ?distance ?favorito ?status ?date ?descripcion (AVG(?rating) as ?rate)  ?imagenes  ?creador ?nombre ?point ?fbIDs ?fbVideoIDs WHERE {"
+                "SELECT ?org ?orgName ?creadorImage  ?region ?regionTitulo ?place ?titulo  ?categoria  ?distance ?favorito ?status ?date ?descripcion (AVG(?rating) as ?rate)  (COUNT(?rating) as ?numComentarios)  ?imagenes  ?creador ?nombre ?point ?fbIDs ?fbVideoIDs WHERE {"
                 +
                 "SELECT ?org ?orgName ?creadorImage  ?favorito ?region ?categoria ?rating   ?regionTitulo ?place ?titulo ?distance ?date ?status ?descripcion (GROUP_CONCAT(DISTINCT ?imagenes2 ; SEPARATOR = ',') AS ?imagenes)  ?creador ?nombre ?point (GROUP_CONCAT(DISTINCT ?idVideoFacebook ; SEPARATOR = ',') AS ?fbVideoIDs)  (GROUP_CONCAT(DISTINCT ?idFacebook ; SEPARATOR = ',') AS ?fbIDs)"+
                 "WHERE {"+
@@ -452,6 +452,18 @@ public class SparqlQueries {
                 "    ?comment base2:text ?text.\n" +
                 "  \n" +
                 "    FILTER(str(?place)="+placeId+").\n" +
+                "}";
+    }
+
+    public static String getCommentsInPlace(String placeId){
+        placeId = "\"http://turis-ucuenca/lugar/"+placeId+"\"";
+        return  prefixes + "SELECT ?comment ?place ?rating ?fecha WHERE {\n" +
+                "    ?comment base2:place ?place. \n" +
+                "    ?comment a :Comentario.\n" +
+                "    ?comment base2:rating ?rating.\n" +
+                "    ?comment dc:date ?fecha.\n" +
+                "    FILTER (str(?place) = "+placeId+" )\n" +
+                "\n" +
                 "}";
     }
 }
