@@ -3,8 +3,8 @@ spring:
     name: user-service
   datasource:
     url: jdbc:mysql://localhost:3306/user_db?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&useSSL=False
-    username: argos
-    password: chocolate
+    username: root
+    password: rootroot
   jpa:
     show-sql: true
     hibernate:
