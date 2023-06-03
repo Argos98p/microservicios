@@ -15,6 +15,10 @@ spring:
         locator:
           enabled: true
       routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
         - id: user-service
           uri: lb://user-service
           predicates:
@@ -29,7 +33,4 @@ spring:
           uri: lb://resource-service
           predicates:
             - Path=/resource/**
-        - id: auth-service
-          uri: lb://auth-service
-          predicates:
-            - Path=/auth/**
+        
