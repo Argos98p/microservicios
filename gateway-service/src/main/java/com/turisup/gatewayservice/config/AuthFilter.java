@@ -12,6 +12,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 
 @Component
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
@@ -25,8 +28,10 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
     @Override
     public GatewayFilter apply(Config config) {
         return (((exchange, chain) -> {
+
             if(!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION))
                 return onError(exchange, HttpStatus.BAD_REQUEST);
+
             String tokenHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
             String [] chunks = tokenHeader.split(" ");
             if(chunks.length != 2 || !chunks[0].equals("Bearer"))
@@ -48,6 +53,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
         response.setStatusCode(status);
         return response.setComplete();
     }
+
 
     public static class Config {}
 }

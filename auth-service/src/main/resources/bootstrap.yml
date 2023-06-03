@@ -5,7 +5,10 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8081
-
+security:
+  basic:
+    enable: false
+  ignored: /**
 jwt:
   secret: secret
 
